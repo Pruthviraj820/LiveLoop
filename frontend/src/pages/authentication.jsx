@@ -11,13 +11,107 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AuthContext } from "../contexts/AuthContext";
 import Snackbar from "@mui/material/Snackbar";
 import { redirect } from "react-router-dom";
 import { use } from "react";
 
-const defaultTheme = createTheme();
+const neoBrutalistTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#ff6b00",
+    },
+    secondary: {
+      main: "#00c6ff",
+    },
+    background: {
+      default: "#ffeeda",
+      paper: "#fffaf0",
+    },
+    text: {
+      primary: "#111111",
+      secondary: "#444444",
+    },
+  },
+  typography: {
+    fontFamily: "'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    h5: {
+      fontWeight: 800,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+    },
+    button: {
+      fontWeight: 700,
+      textTransform: "none",
+      letterSpacing: "0.06em",
+    },
+  },
+  shape: {
+    borderRadius: 14,
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 14,
+          border: "4px solid #111111",
+          boxShadow: "6px 6px 0 #111111",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 999,
+          borderWidth: 3,
+          borderStyle: "solid",
+          borderColor: "#111111",
+          boxShadow: "6px 6px 0 #111111",
+          "&:hover": {
+            boxShadow: "9px 9px 0 #111111",
+            transform: "translate(-2px, -2px)",
+          },
+          "&:active": {
+            boxShadow: "2px 2px 0 #111111",
+            transform: "translate(2px, 2px)",
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: "#fffaf0",
+            boxShadow: "6px 6px 0 #111111",
+            borderRadius: 14,
+            "& fieldset": {
+              borderWidth: 3,
+              borderColor: "#111111",
+            },
+            "&:hover fieldset": {
+              borderColor: "#ff6b00",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#f94d92",
+            },
+          },
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          border: "3px solid #111111",
+          boxShadow: "4px 4px 0 #111111",
+          backgroundColor: "#ffb347",
+          color: "#111111",
+        },
+      },
+    },
+  },
+});
 
 export default function Authentication() {
 
@@ -71,8 +165,15 @@ export default function Authentication() {
     }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+    <ThemeProvider theme={neoBrutalistTheme}>
+      <Grid
+        container
+        component="main"
+        sx={{
+          height: "100vh",
+          backgroundColor: "var(--nb-bg)",
+        }}
+      >
         <CssBaseline />
 
         {/* Left Image Section */}
@@ -82,19 +183,46 @@ export default function Authentication() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundColor: "#ffd25f",
+            borderRight: "4px solid var(--nb-border)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
+        >
+          <Box
+            sx={{
+              px: 4,
+              py: 3,
+              backgroundColor: "var(--nb-surface)",
+              borderRadius: "var(--nb-radius)",
+              border: "4px solid var(--nb-border)",
+              boxShadow: "6px 6px 0 #111111",
+              maxWidth: 420,
+            }}
+          >
+            <Typography variant="h5" component="h1" gutterBottom>
+              LiveLoop
+            </Typography>
+            <Typography>
+              Bold, fast and friendly video calls with a playful neo-brutalist twist.
+            </Typography>
+          </Box>
+        </Grid>
 
         {/* Right Form Section */}
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={0}
+          square
+          sx={{
+            backgroundColor: "var(--nb-surface)",
+          }}
+        >
           <Box
             sx={{
               my: 8,
@@ -105,15 +233,22 @@ export default function Authentication() {
             }}
           >
 
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar sx={{ m: 1 }}>
               <LockOutlinedIcon />
             </Avatar>
 
-            <div>
-                <Button variant= {formState === 0 ? "contained":""} onClick={()=> {setFormState(0)}}>
+            <div style={{ marginTop: "0.8rem", marginBottom: "0.8rem" }}>
+                <Button
+                  variant= {formState === 0 ? "contained": "outlined"}
+                  onClick={()=> {setFormState(0)}}
+                  sx={{ mr: 1 }}
+                >
                     Sign In
                 </Button>
-                <Button variant={formState === 1 ? "contained" : ""} onClick={() => {setFormState(1)}}>
+                <Button
+                  variant={formState === 1 ? "contained" : "outlined"}
+                  onClick={() => {setFormState(1)}}
+                >
                     Sign Up
                 </Button>
             </div>

@@ -4,16 +4,76 @@
   box-sizing: border-box;
 }
 
+:root {
+  --nb-bg: #ffeeda;
+  --nb-surface: #fffaf0;
+  --nb-surface-strong: #ffd25f;
+  --nb-primary: #ff6b00;
+  --nb-primary-soft: #ffb347;
+  --nb-secondary: #00c6ff;
+  --nb-accent: #f94d92;
+  --nb-border: #111111;
+  --nb-text-main: #111111;
+  --nb-text-muted: #444444;
+  --nb-shadow: 6px 6px 0 #111111;
+  --nb-radius: 14px;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--nb-bg);
+  color: var(--nb-text-main);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: 'Space Grotesk', Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.neo-card {
+  background-color: var(--nb-surface);
+  border: 3px solid var(--nb-border);
+  border-radius: var(--nb-radius);
+  box-shadow: var(--nb-shadow);
+}
+
+.neo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  border: 3px solid var(--nb-border);
+  background-color: var(--nb-primary);
+  color: #111111;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  box-shadow: var(--nb-shadow);
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out,
+    background-color 0.08s ease-out;
+}
+
+.neo-button:hover {
+  background-color: var(--nb-primary-soft);
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #111111;
+}
+
+.neo-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #111111;
 }

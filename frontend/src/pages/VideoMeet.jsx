@@ -454,6 +454,64 @@ export default function VideoMeetComponent() {
     }
 
 
+    const neoIconButtonCircleSx = (bgColor) => ({
+        borderRadius: '999px',
+        border: '3px solid var(--nb-border)',
+        backgroundColor: bgColor,
+        boxShadow: 'var(--nb-shadow)',
+        marginInline: '0.5rem',
+        '& svg': {
+            color: '#111111'
+        },
+        '&:hover': {
+            transform: 'translate(-2px, -2px)',
+            boxShadow: '9px 9px 0 var(--nb-border)'
+        },
+        '&:active': {
+            transform: 'translate(2px, 2px)',
+            boxShadow: '2px 2px 0 var(--nb-border)'
+        }
+    });
+
+    const neoPrimaryButtonSx = {
+        borderRadius: '999px',
+        border: '3px solid var(--nb-border)',
+        backgroundColor: 'var(--nb-primary)',
+        color: '#111111',
+        fontWeight: 700,
+        textTransform: 'none',
+        paddingInline: '1.4rem',
+        paddingBlock: '0.6rem',
+        boxShadow: 'var(--nb-shadow)',
+        '&:hover': {
+            backgroundColor: 'var(--nb-primary-soft)',
+            transform: 'translate(-2px, -2px)',
+            boxShadow: '9px 9px 0 var(--nb-border)'
+        },
+        '&:active': {
+            transform: 'translate(2px, 2px)',
+            boxShadow: '2px 2px 0 var(--nb-border)'
+        }
+    };
+
+    const neoTextFieldSx = {
+        '& .MuiOutlinedInput-root': {
+            borderRadius: 'var(--nb-radius)',
+            backgroundColor: '#fffaf0',
+            boxShadow: 'var(--nb-shadow)',
+            '& fieldset': {
+                borderWidth: 3,
+                borderColor: 'var(--nb-border)'
+            },
+            '&:hover fieldset': {
+                borderColor: 'var(--nb-primary)'
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'var(--nb-accent)'
+            }
+        }
+    };
+
     let connect = () => {
         setAskForUsername(false);
         getMedia();
@@ -465,16 +523,25 @@ export default function VideoMeetComponent() {
 
             {askForUsername === true ?
 
-                <div>
+                <div style={{ padding: "2rem", maxWidth: "480px", margin: "0 auto" }}>
 
 
-                    <h2>Enter into Lobby </h2>
-                    <TextField id="outlined-basic" label="Username" value={username} onChange={e => setUsername(e.target.value)} variant="outlined" />
-                    <Button variant="contained" onClick={connect}>Connect</Button>
+                    <h2 style={{ fontSize: "2rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "1rem" }}>Enter into Lobby </h2>
+                    <div style={{ display: "flex", gap: "0.75rem", marginBottom: "1.5rem" }}>
+                        <TextField
+                            id="outlined-basic"
+                            label="Username"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            variant="outlined"
+                            sx={neoTextFieldSx}
+                        />
+                        <Button variant="contained" onClick={connect} sx={neoPrimaryButtonSx}>Connect</Button>
+                    </div>
 
 
-                    <div>
-                        <video ref={localVideoref} autoPlay muted></video>
+                    <div className="neo-card">
+                        <video ref={localVideoref} autoPlay muted style={{ width: "100%", borderRadius: "var(--nb-radius)" }}></video>
                     </div>
 
                 </div> :
@@ -485,7 +552,7 @@ export default function VideoMeetComponent() {
                     {showModal ? <div className={styles.chatRoom}>
 
                         <div className={styles.chatContainer}>
-                            <h1>Chat</h1>
+                            <h1 style={{ fontSize: "1.5rem", fontWeight: 800, textTransform: "uppercase" }}>Chat</h1>
 
                             <div className={styles.chattingDisplay}>
 
@@ -504,8 +571,15 @@ export default function VideoMeetComponent() {
                             </div>
 
                             <div className={styles.chattingArea}>
-                                <TextField value={message} onChange={(e) => setMessage(e.target.value)} id="outlined-basic" label="Enter Your chat" variant="outlined" />
-                                <Button variant='contained' onClick={sendMessage}>Send</Button>
+                                <TextField
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    id="outlined-basic"
+                                    label="Enter Your chat"
+                                    variant="outlined"
+                                    sx={{ ...neoTextFieldSx, width: "100%", marginBottom: "0.6rem" }}
+                                />
+                                <Button variant='contained' onClick={sendMessage} sx={neoPrimaryButtonSx}>Send</Button>
                             </div>
 
 
@@ -514,23 +588,23 @@ export default function VideoMeetComponent() {
 
 
                     <div className={styles.buttonContainers}>
-                        <IconButton onClick={handleVideo} style={{ color: "white" }}>
+                        <IconButton onClick={handleVideo} sx={neoIconButtonCircleSx('var(--nb-secondary)')}>
                             {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
                         </IconButton>
-                        <IconButton onClick={handleEndCall} style={{ color: "red" }}>
+                        <IconButton onClick={handleEndCall} sx={neoIconButtonCircleSx('#ff4b4b')}>
                             <CallEndIcon />
                         </IconButton>
-                        <IconButton onClick={handleAudio} style={{ color: "white" }}>
+                        <IconButton onClick={handleAudio} sx={neoIconButtonCircleSx('var(--nb-secondary)')}>
                             {audio === true ? <MicIcon /> : <MicOffIcon />}
                         </IconButton>
 
                         {screenAvailable === true ?
-                            <IconButton onClick={handleScreen} style={{ color: "white" }}>
+                            <IconButton onClick={handleScreen} sx={neoIconButtonCircleSx('var(--nb-secondary)')}>
                                 {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
                             </IconButton> : <></>}
 
-                        <Badge badgeContent={newMessages} max={999} color='orange'>
-                            <IconButton onClick={() => setModal(!showModal)} style={{ color: "white" }}>
+                        <Badge badgeContent={newMessages} max={999} color='error'>
+                            <IconButton onClick={() => setModal(!showModal)} sx={neoIconButtonCircleSx('var(--nb-accent)')}>
                                 <ChatIcon />                        </IconButton>
                         </Badge>
 

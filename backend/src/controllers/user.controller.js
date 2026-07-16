@@ -3,6 +3,11 @@ import { User } from "../models/user.model.js";
 import bcrypt, { hash } from "bcrypt"
 import crypto from "crypto"
 import { Meeting } from "../models/meeting.model.js";
+import {
+    findUserByToken,
+    findUserByUsername,
+    invalidateUserCache,
+} from "../services/userCache.service.js";
 
 const login = async (req, res) => {
 
@@ -16,7 +21,7 @@ const login = async (req, res) => {
 
     try {
         // Find single user
-        const user = await User.findOne({ username });
+        const user = await findUserByUsername(username);
 
         if (!user) {
             return res
@@ -30,8 +35,10 @@ const login = async (req, res) => {
         if (isPasswordCorrect) {
             let token = crypto.randomBytes(20).toString("hex");
 
+            const previousToken = user.token;
             user.token = token;
             await user.save();
+            await invalidateUserCache(user.username, previousToken);
 
             return res.status(httpStatus.OK).json({ token: token })
         } else {
@@ -52,7 +59,7 @@ const register = async (req, res) => {
     const { name, username, password } = req.body;
 
     try {
-        const existingUser = await User.findOne({ username });
+        const existingUser = await findUserByUsername(username);
         if (existingUser) {
             return res.status(httpStatus.FOUND).json({ message: "User already exists" });
         }
@@ -78,7 +85,7 @@ const getUserHistory = async (req , res)=>{
     const {token} = req.query ;
 
     try{
-        const user = await User.findOne({token : token })
+        const user = await findUserByToken(token)
         const meetings = await Meeting.find({ user_id: user.username })
         res.json(meetings)
     }catch(e){
@@ -90,7 +97,7 @@ const addToHistory = async (req, res) => {
     const { token, meeting_code } = req.body;
 
     try {
-        const user = await User.findOne({ token: token });
+        const user = await findUserByToken(token);
 
         const newMeeting = new Meeting({
             user_id: user.username,
