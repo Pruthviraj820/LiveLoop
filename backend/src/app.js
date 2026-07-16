@@ -27,6 +27,8 @@ app.use(cors());
 app.use(express.json({ limit: "40kb" }));//Allows server to read JSON data from request body.
 app.use(express.urlencoded({ limit: "40kb", extended: true } ) );//Reads form data
 
+app.set("trust proxy", 1);
+
 app.use(globalLimiter);
 
 app.use("/api/v1/users" , userRoutes)
