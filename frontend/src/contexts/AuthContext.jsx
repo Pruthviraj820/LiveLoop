@@ -2,7 +2,7 @@ import axios from "axios";
 import { Children, createContext, use, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import httpStatus from "http-status";
-
+import server from "../environment";
 // This creates a global container.
 // Think of it like a global storage:
 // AuthContext
@@ -15,7 +15,7 @@ import httpStatus from "http-status";
 export const AuthContext = createContext({});
 
 const client = axios.create({
-    baseURL : "http://localhost:8000/api/v1/users"
+    baseURL : `${server}/api/v1/users`
     //instead of writing full url everytime . axios add this baseURl and we can simply write /login
     //                                                                                       /register
 })
